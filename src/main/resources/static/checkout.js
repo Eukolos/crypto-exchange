@@ -51,7 +51,7 @@ async function handleSubmit(e) {
         elements,
         confirmParams: {
             // Make sure to change this to your payment completion page
-            return_url: "http://localhost:4242/checkout.html",
+            return_url: "http://localhost:8080/payment",
             receipt_email: emailAddress,
         },
     });
