@@ -12,11 +12,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @RequiredArgsConstructor
 @Slf4j
 public class CryptoExchangeApplication {
+
     @PostConstruct
     public void setup() {
         Dotenv dotenv = Dotenv.configure().load();
         Stripe.apiKey = dotenv.get("STRIPE_API_KEY");
-        log.info(Stripe.apiKey);
     }
 
     public static void main(String[] args) {

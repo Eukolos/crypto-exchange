@@ -112,6 +112,24 @@ button:disabled {
     -webkit-animation: loading 2s infinite ease;
     animation: loading 2s infinite ease;
 }
+.input {
+    background-color: #F5F5F5;
+    border: none;
+    border-radius: 4px;
+    color: #555555;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.input:hover {
+    background-color: #E0E0E0;
+}
 
 @-webkit-keyframes loading {
     0% {

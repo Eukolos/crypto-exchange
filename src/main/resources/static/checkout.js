@@ -1,5 +1,5 @@
 // This is your test publishable API key.
-const stripe = Stripe("pk_test_51N3cSJBxrQqssZYj1lSNq3I7I0yc7Fh9YGDIcYPSbeY04Ua8hWFbZq5rb4fQyrWZGb0u2v06Kf4nTRsqYgnARffp003VNfhTrC");
+const stripe = Stripe(stripePublicKey);
 
 // The items the customer wants to buy
 const items = [{ id: "xl-tshirt" }];
@@ -11,7 +11,7 @@ checkStatus();
 
 document
     .querySelector("#payment-form")
-    .addEventListener("submit", handleSubmit);
+    .addEventListener("submit", handleSubmit)
 
 let emailAddress = '';
 // Fetches a payment intent and captures the client secret

@@ -1,13 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
     <title>Accept a payment</title>
     <meta name="description" content="A demo of a payment on Stripe" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="checkout.css" />
+    <link rel="stylesheet" th:href="@{checkout.css}" />
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="checkout.js" defer></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        var stripePublicKey = /*[[${stripePublicKey}]]*/ "pk_test_51N3cSJBxrQqssZYj1lSNq3I7I0yc7Fh9YGDIcYPSbeY04Ua8hWFbZq5rb4fQyrWZGb0u2v06Kf4nTRsqYgnARffp003VNfhTrC";
+
+        /*]]>*/
+    </script>
+    <script th:src="@{checkout.js}" defer></script>
 </head>
 <body>
 <!-- Display a payment form -->

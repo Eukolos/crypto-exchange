@@ -17,6 +17,7 @@ public class PaymentController {
     @PostMapping("/create-payment-intent")
     public CreatePaymentResponse createPaymentIntent(@RequestBody CreatePayment createPayment) throws StripeException {
         PaymentIntentCreateParams createParams = new PaymentIntentCreateParams.Builder()
+                .setReceiptEmail("eminaksoy@gmail.com")
                 .setCurrency("usd")
                 .setAmount(15 * 100L)
                 .build();
