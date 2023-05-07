@@ -31,6 +31,9 @@ public class WebController {
         }
 
         model.addAttribute("stripePublicKey", Dotenv.configure().load().get("STRIPE_PUBLIC_KEY"));
+        model.addAttribute("paymentAmount", paymentForm.getAmount());
+        model.addAttribute("paymentEmail", paymentForm.getEmail());
+
         return "payment";
     }
 

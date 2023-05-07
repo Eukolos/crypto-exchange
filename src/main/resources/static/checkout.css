@@ -23,7 +23,13 @@ form {
     border-radius: 7px;
     padding: 40px;
 }
-
+.card-heading {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: #555555;
+    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
 .hidden {
     display: none;
 }

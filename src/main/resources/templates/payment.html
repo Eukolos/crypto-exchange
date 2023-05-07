@@ -10,7 +10,10 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
 
-        var stripePublicKey = /*[[${stripePublicKey}]]*/ "pk_test_51N3cSJBxrQqssZYj1lSNq3I7I0yc7Fh9YGDIcYPSbeY04Ua8hWFbZq5rb4fQyrWZGb0u2v06Kf4nTRsqYgnARffp003VNfhTrC";
+        var stripePublicKey = /*[[${stripePublicKey}]]*/ null;
+        var paymentAmount = /*[[${paymentAmount}]]*/ null;
+        var paymentEmail = /*[[${paymentEmail}]]*/ null;
+
 
         /*]]>*/
     </script>
@@ -19,6 +22,7 @@
 <body>
 <!-- Display a payment form -->
 <form id="payment-form">
+    <p class="card-heading">Hi, this amount: <span th:text="${paymentAmount}"></span> USD you pay</p>
     <div id="link-authentication-element">
         <!--Stripe.js injects the Link Authentication Element-->
     </div>

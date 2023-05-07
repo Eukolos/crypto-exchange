@@ -12,14 +12,14 @@
 <form id="payment-form" method="POST" th:action="@{/}" th:object="${paymentForm}">
     <p><b>Do you want to pay</b></p>
     <p>Email: <label>
-        <input placeholder="Email Address"  th:class="input" th:field="*{email}" type="text" required/>
+        <input placeholder="Email Address"  class="input" th:field="*{email}" type="text" required/>
     </label></p>
     <p style="color: red" th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></p>
     <p>Amount: <label>
-        <input type="text" th:field="*{amount}" th:class="input" placeholder="Amount" required/>
+        <input type="text" th:field="*{amount}" class="input" placeholder="Amount" required/>
     </label></p>
     <p th:if="${#fields.hasErrors('email')}" th:errors="*{amount}" style="color: red"></p>
-    <p><input type="submit" th:class="input"/></p>
+    <p><input type="submit" class="input"/></p>
 </form>
 </body>
 </html>

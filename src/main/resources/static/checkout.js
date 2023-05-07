@@ -2,7 +2,10 @@
 const stripe = Stripe(stripePublicKey);
 
 // The items the customer wants to buy
-const items = [{ id: "xl-tshirt" }];
+const createPayment = {
+   amount : paymentAmount,
+   email : paymentEmail
+};
 
 let elements;
 
@@ -19,7 +22,7 @@ async function initialize() {
     const response = await fetch("/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items }),
+        body: JSON.stringify(createPayment),
     });
     const { clientSecret } = await response.json();
 
