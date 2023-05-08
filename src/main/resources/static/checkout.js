@@ -12,11 +12,12 @@ let elements;
 initialize();
 checkStatus();
 
+
 document
     .querySelector("#payment-form")
     .addEventListener("submit", handleSubmit)
 
-let emailAddress = '';
+let emailAddress = paymentEmail;
 // Fetches a payment intent and captures the client secret
 async function initialize() {
     const response = await fetch("/create-payment-intent", {
@@ -31,12 +32,6 @@ async function initialize() {
     };
     elements = stripe.elements({ appearance, clientSecret });
 
-    const linkAuthenticationElement = elements.create("linkAuthentication");
-    linkAuthenticationElement.mount("#link-authentication-element");
-
-    linkAuthenticationElement.on('change', (event) => {
-        emailAddress = event.value.email;
-    });
 
     const paymentElementOptions = {
         layout: "tabs",
@@ -44,7 +39,9 @@ async function initialize() {
 
     const paymentElement = elements.create("payment", paymentElementOptions);
     paymentElement.mount("#payment-element");
+
 }
+
 
 async function handleSubmit(e) {
     e.preventDefault();
