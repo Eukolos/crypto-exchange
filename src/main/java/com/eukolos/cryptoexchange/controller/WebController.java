@@ -1,7 +1,6 @@
 package com.eukolos.cryptoexchange.controller;
 
 import com.eukolos.cryptoexchange.dto.PaymentForm;
-import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

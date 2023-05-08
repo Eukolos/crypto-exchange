@@ -3,8 +3,8 @@ package com.eukolos.cryptoexchange.controller;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.*;
 import com.stripe.net.Webhook;
-import io.github.cdimascio.dotenv.Dotenv;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 public class StripeWebHookController {
+    private final String STRIPE_ENDPOINT_SECRET;
+    public StripeWebHookController(@Value("${stripe.endpoint-secret}") String stripeEndpointSecret) {
+        STRIPE_ENDPOINT_SECRET = stripeEndpointSecret;
+    }
+
 
     @PostMapping("/stripe/events")
     public String handleStripeEvent(@RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader){
@@ -29,7 +34,7 @@ public class StripeWebHookController {
                 // Otherwise use the basic event deserialized with GSON.
                 try {
                     event = Webhook.constructEvent(
-                            payload, sigHeader, Dotenv.configure().load().get("STRIPE_ENDPOINT_SECRET")
+                            payload, sigHeader, STRIPE_ENDPOINT_SECRET
                     );
                 } catch (SignatureVerificationException e) {
                     // Invalid signature

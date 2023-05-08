@@ -2,11 +2,15 @@ package com.eukolos.cryptoexchange.model;
 
 import com.eukolos.cryptoexchange.enumaration.Role;
 import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 @Entity(name = "users")
 @NoArgsConstructor
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
