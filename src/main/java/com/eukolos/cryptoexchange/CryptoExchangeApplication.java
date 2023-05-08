@@ -4,9 +4,11 @@ import com.eukolos.cryptoexchange.enumaration.EnumCurrency;
 import com.eukolos.cryptoexchange.enumaration.Role;
 import com.eukolos.cryptoexchange.model.CryptoAccount;
 import com.eukolos.cryptoexchange.model.Currency;
+import com.eukolos.cryptoexchange.model.Payment;
 import com.eukolos.cryptoexchange.model.User;
 import com.eukolos.cryptoexchange.repository.CryptoAccountRepository;
 import com.eukolos.cryptoexchange.repository.CurrencyRepository;
+import com.eukolos.cryptoexchange.repository.PaymentRepository;
 import com.eukolos.cryptoexchange.repository.UserRepository;
 import com.stripe.Stripe;
 import jakarta.annotation.PostConstruct;
@@ -16,7 +18,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,11 +27,13 @@ public class CryptoExchangeApplication implements CommandLineRunner {
     private final UserRepository userRepository;
     private final CurrencyRepository currencyRepository;
     private final CryptoAccountRepository cryptoAccountRepository;
+    private final PaymentRepository paymentRepository;
     private final String STRIPE_API_KEY;
-    public CryptoExchangeApplication(UserRepository userRepository, CurrencyRepository currencyRepository, CryptoAccountRepository cryptoAccountRepository, @Value("${stripe.api-key}") String stripeApiKey) {
+    public CryptoExchangeApplication(UserRepository userRepository, CurrencyRepository currencyRepository, CryptoAccountRepository cryptoAccountRepository, PaymentRepository paymentRepository, @Value("${stripe.api-key}") String stripeApiKey) {
         this.userRepository = userRepository;
         this.currencyRepository = currencyRepository;
         this.cryptoAccountRepository = cryptoAccountRepository;
+        this.paymentRepository = paymentRepository;
         STRIPE_API_KEY = stripeApiKey;
     }
 
@@ -80,6 +83,8 @@ public class CryptoExchangeApplication implements CommandLineRunner {
         );
 
         log.warn(user.toString());
+
+        log.warn(paymentRepository.save(new Payment()).toString());
 
 
     }
