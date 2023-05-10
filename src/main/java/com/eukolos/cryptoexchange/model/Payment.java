@@ -1,10 +1,7 @@
 package com.eukolos.cryptoexchange.model;
 
 import com.eukolos.cryptoexchange.enumaration.EnumCurrency;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NaturalId;
@@ -16,6 +13,7 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @ToString
+@Builder
 @AllArgsConstructor
 public class Payment {
     @Id
@@ -27,5 +25,9 @@ public class Payment {
     private float amount;
     @CreationTimestamp
     private LocalDate date;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
+    private User user;
 
 }

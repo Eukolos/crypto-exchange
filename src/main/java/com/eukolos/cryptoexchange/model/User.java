@@ -7,6 +7,7 @@ import lombok.*;
 import java.util.List;
 @Entity(name = "users")
 @NoArgsConstructor
+@Builder
 @Setter
 @Getter
 @ToString
@@ -15,8 +16,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
