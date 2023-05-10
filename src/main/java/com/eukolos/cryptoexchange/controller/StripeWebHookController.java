@@ -1,5 +1,7 @@
 package com.eukolos.cryptoexchange.controller;
 
+import com.eukolos.cryptoexchange.dto.AcceptPayment;
+import com.eukolos.cryptoexchange.service.UserService;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.*;
 import com.stripe.net.Webhook;
@@ -10,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @Slf4j
+@RestController
 public class StripeWebHookController {
+    private final UserService userService;
     private final String STRIPE_ENDPOINT_SECRET;
 
-    public StripeWebHookController(@Value("${stripe.endpoint-secret}") String stripeEndpointSecret) {
+    public StripeWebHookController(UserService userService, @Value("${stripe.endpoint-secret}") String stripeEndpointSecret) {
+        this.userService = userService;
         STRIPE_ENDPOINT_SECRET = stripeEndpointSecret;
     }
 
@@ -49,6 +53,13 @@ public class StripeWebHookController {
         switch (event.getType()) {
             case "payment_intent.succeeded" -> {
                 PaymentIntent paymentIntent = (PaymentIntent) stripeObject;
+                userService.acceptPayment(
+                        new AcceptPayment(
+                                paymentIntent.getId(),
+                                paymentIntent.getReceiptEmail(),
+                                ((float) paymentIntent.getAmount() / 100)
+                        )
+                );
                 log.info(paymentIntent.getId());
                 log.info(paymentIntent.getReceiptEmail());
                 log.info("Payment for " + paymentIntent.getAmount() + " succeeded.");

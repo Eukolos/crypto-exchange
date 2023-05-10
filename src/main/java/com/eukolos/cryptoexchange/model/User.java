@@ -5,14 +5,16 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-@Entity(name = "users")
-@NoArgsConstructor
+
 @Builder
 @Setter
 @Getter
 @ToString
+@NoArgsConstructor
 @AllArgsConstructor
+@Entity(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -24,5 +26,7 @@ public class User {
     private Role role;
     @OneToMany(fetch = FetchType.EAGER)
     private List<CryptoAccount> cryptoAccountList;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Payment> paymentList;
 
 }

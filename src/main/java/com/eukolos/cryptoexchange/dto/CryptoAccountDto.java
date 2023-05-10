@@ -12,7 +12,7 @@ import java.util.List;
 public class CryptoAccountDto implements Serializable {
     private final String id;
     private final CurrencyDto currency;
-    private final List<CurrencyDto> criptoCurrencies;
+    private final List<CurrencyDto> cryptoCurrencies;
 
 
 
@@ -23,6 +23,6 @@ public class CryptoAccountDto implements Serializable {
         for (Currency currency : cryptoAccount.getCryptoCurrencies()) {
             currenciesDto.add(new CurrencyDto(currency));
         }
-        this.criptoCurrencies = currenciesDto;
+        this.cryptoCurrencies = currenciesDto;
     }
 }
