@@ -1,4 +1,4 @@
-##STEPS
+## STEPS
 
 &#x2611; create relational entities
 
@@ -18,7 +18,7 @@
 
 &#x2611; add custom exceptions
 
-&#x2610; implement coin market cap api
+&#x2610; implement binance api
 
 &#x2610; complete buy crypto flow
 
