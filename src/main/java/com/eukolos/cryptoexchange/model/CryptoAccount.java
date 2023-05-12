@@ -5,12 +5,12 @@ import lombok.*;
 
 import java.util.List;
 import java.util.Map;
-@Entity
 @NoArgsConstructor
 @Setter
 @Getter
 @ToString
 @AllArgsConstructor
+@Entity(name = "crypto_accounts")
 public class CryptoAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

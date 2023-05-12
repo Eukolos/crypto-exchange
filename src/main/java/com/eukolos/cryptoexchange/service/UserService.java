@@ -1,18 +1,21 @@
 package com.eukolos.cryptoexchange.service;
 
 import com.eukolos.cryptoexchange.dto.AcceptPayment;
+import com.eukolos.cryptoexchange.dto.ExchangeRequest;
 import com.eukolos.cryptoexchange.dto.LoginRequest;
 import com.eukolos.cryptoexchange.dto.UserDto;
 import com.eukolos.cryptoexchange.exception.EmailNotFoundException;
-import com.eukolos.cryptoexchange.model.CryptoAccount;
-import com.eukolos.cryptoexchange.model.Payment;
-import com.eukolos.cryptoexchange.model.User;
+import com.eukolos.cryptoexchange.model.*;
 import com.eukolos.cryptoexchange.repository.UserRepository;
+import jakarta.annotation.Nullable;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.util.NullableWrapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -20,6 +23,8 @@ import java.util.List;
 public class UserService {
     private final UserRepository repository;
     private final PaymentService paymentService;
+    private final ExchangeService exchangeService;
+    private final CurrencyService currencyService;
 
     public UserDto registerUser(LoginRequest request) {
         return new UserDto(repository.save(
@@ -36,13 +41,53 @@ public class UserService {
 
     public void acceptPayment(AcceptPayment accepted) {
         User user = repository.findUserByEmail(accepted.email()).orElseThrow(() -> new EmailNotFoundException("User not found with email: {}" + accepted.email()));
-        Payment payment = paymentService.savePayment(user, accepted);
-        List<Payment> paymentList = user.getPaymentList();
-        paymentList.add(payment);
-        user.setPaymentList(paymentList);
-        float total = user.getCryptoAccountList().get(0).getCurrency().getAmount() + accepted.amount();
-        user.getCryptoAccountList().get(0).getCurrency().setAmount(total);
+        user.getPaymentList().add(paymentService.savePayment(user, accepted));
+        user.getCryptoAccountList().get(0).getCurrency().setAmount(user.getCryptoAccountList().get(0).getCurrency().getAmount() + accepted.amount());
         log.warn(repository.save(user).toString());
     }
+    public Currency acceptExchange(ExchangeRequest request) {
+        User user = repository.findUserByEmail(request.email()).orElseThrow(() -> new EmailNotFoundException("User not found with email: {}" + request.email()));
+        Exchange exchange = exchangeService.saveExchange(user, request);
+        user.getExchangeList().add(exchange);
+
+//        Currency currency = user.getCryptoAccountList().get(0).getCryptoCurrencies().stream().filter(cur -> cur.getType().equals(request.coin())).findAny().orElse(new Currency());
+//        currency.setType(currency.getType());
+//        currency.setAmount(currency.getAmount()+exchange.getAmount());
+
+        // Get the first CryptoAccount object from the user's list
+        CryptoAccount cryptoAccount = user.getCryptoAccountList().get(0);
+
+// Get the list of CryptoCurrencies from the CryptoAccount object
+        List<Currency> cryptoCurrencies = cryptoAccount.getCryptoCurrencies();
+
+// Find the CryptoCurrency object that matches the request.coin() value
+        Currency currency = cryptoCurrencies.stream()
+                .filter(cur -> cur.getType().equals(request.coin()))
+                .findAny()
+                .orElse(new Currency());
+
+// Update the amount of the CryptoCurrency object with the new value
+        currency.setAmount(
+                Optional.ofNullable(currency.getAmount()).orElse((float) 0)
+                 + exchange.getAmount());
+        currency.setType(request.coin());
+
+// Set the updated CryptoCurrency object back into the list
+        cryptoCurrencies.removeIf(cur -> cur.getType().equals(request.coin()));
+        cryptoCurrencies.add(currency);
+
+// Set the updated CryptoCurrencies list back into the CryptoAccount object
+        cryptoAccount.setCryptoCurrencies(cryptoCurrencies);
+
+// Set the updated CryptoAccount object back into the user's list
+        user.setCryptoAccountList(List.of(cryptoAccount));
+        repository.save(user);
+
+        return currencyService.saveCurrency(currency);
+
+
+
+    }
+
 
 }
