@@ -100,14 +100,14 @@ public class CryptoExchangeApplication implements CommandLineRunner {
         log.warn(user.toString());
 
         log.warn(paymentRepository.save(new Payment()).toString());
-        LinkedHashMap<String,Object> parameters = new LinkedHashMap<>();
-        parameters.put("symbol","BTCUSDT");
-        parameters.put("side","SELL");
-        parameters.put("type","MARKET");
-        parameters.put("price",10);
-        SpotClientImpl client = new SpotClientImpl(BINANCE_API_KEY, BINANCE_SECRET_KEY);
-        String result = client.createTrade().testNewOrder(parameters);
-        log.warn(result);
+//        LinkedHashMap<String,Object> parameters = new LinkedHashMap<>();
+//        parameters.put("symbol","BTCUSDT");
+//        parameters.put("side","SELL");
+//        parameters.put("type","MARKET");
+//        parameters.put("price",10);
+//        SpotClientImpl client = new SpotClientImpl(BINANCE_API_KEY, BINANCE_SECRET_KEY);
+//        String result = client.createTrade().testNewOrder(parameters);
+//        log.warn(result);
 
     }
 }

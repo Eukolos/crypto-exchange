@@ -1,5 +1,5 @@
 # Crypto Exchange API
-<img src="image/exchange-api.jpg" alt="image" style="border-radius: 25px;" />
+<img src="image/exchange-api.png" alt="image" />
 
 Crypto Exchange API is a Spring Boot project designed to serve as a crypto exchange platform. It allows users to make payments using the Stripe API and fetches the latest crypto rates from Binance.
 
@@ -28,8 +28,14 @@ Crypto Exchange API is a Spring Boot project designed to serve as a crypto excha
 
 ## Features
 
- - **Payment Integration:** The project has been integrated with Stripe API, enabling users to make payments securely and conveniently.
- - **Real-time Crypto Rates:** The project fetches real-time crypto rates from Binance, ensuring that users always get the latest rates.
- - **User-friendly Interface:** The platform offers a simple and intuitive user interface that makes it easy for users to navigate and perform transactions.
- - **Secure Transactions:** The platform ensures that all transactions are safe and secure, with measures in place to prevent fraud and protect user data.
- - **Customizable:** The project is highly customizable, allowing you to configure it to suit your specific needs.
+- **Payment Integration:** The project has been integrated with Stripe API, enabling users to make payments securely and conveniently.
+  - _**The Stripe API listens to a specific URL for notifications**_
+    <img src="image/stripe-listen.png" alt="image1" />
+  - _**Stripe Payment Flow**_
+    <img src="image/stripe-payment-flow.png" alt="image2" />
+  - _**Stripe Payment**_
+        <img src="image/stripe-payment.png" alt="image3" />
+- **Real-time Crypto Rates:** The project fetches real-time crypto rates from Binance, ensuring that users always get the latest rates.
+- **User-friendly Interface:** The platform offers a simple and intuitive user interface that makes it easy for users to navigate and perform transactions.
+- **Secure Transactions:** The platform ensures that all transactions are safe and secure, with measures in place to prevent fraud and protect user data.
+- **Customizable:** The project is highly customizable, allowing you to configure it to suit your specific needs.
