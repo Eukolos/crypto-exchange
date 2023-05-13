@@ -15,6 +15,7 @@ public class CurrencyService {
 
         return repository.save(
                 Currency.builder()
+                        .id(currency.getId())
                         .cryptoAccount(cryptoAccount)
                         .type(currency.getType())
                         .amount(currency.getAmount())

@@ -9,6 +9,7 @@ import java.util.Map;
 @Setter
 @Getter
 @ToString
+@Builder
 @AllArgsConstructor
 @Entity(name = "crypto_accounts")
 public class CryptoAccount {
@@ -17,7 +18,7 @@ public class CryptoAccount {
     private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_iiiid")
     @ToString.Exclude
     private User user;
     @OneToOne

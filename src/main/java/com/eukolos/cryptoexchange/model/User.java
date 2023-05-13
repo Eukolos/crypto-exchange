@@ -30,5 +30,9 @@ public class User {
     private List<Payment> paymentList;
     @OneToMany(fetch = FetchType.EAGER)
     private List<Exchange> exchangeList;
+    public List<CryptoAccount> addCryptoAccount(CryptoAccount cryptoAccount) {
+        cryptoAccountList.add(cryptoAccount);
+        return cryptoAccountList;
+    }
 
 }

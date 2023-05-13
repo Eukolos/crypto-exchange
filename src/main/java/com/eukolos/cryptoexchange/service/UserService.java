@@ -7,11 +7,8 @@ import com.eukolos.cryptoexchange.dto.UserDto;
 import com.eukolos.cryptoexchange.exception.EmailNotFoundException;
 import com.eukolos.cryptoexchange.model.*;
 import com.eukolos.cryptoexchange.repository.UserRepository;
-import jakarta.annotation.Nullable;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.util.NullableWrapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +22,7 @@ public class UserService {
     private final PaymentService paymentService;
     private final ExchangeService exchangeService;
     private final CurrencyService currencyService;
+    private final CryptoAccountService cryptoAccountService;
 
     public UserDto registerUser(LoginRequest request) {
         return new UserDto(repository.save(
@@ -45,48 +43,46 @@ public class UserService {
         user.getCryptoAccountList().get(0).getCurrency().setAmount(user.getCryptoAccountList().get(0).getCurrency().getAmount() + accepted.amount());
         log.warn(repository.save(user).toString());
     }
-    public Currency acceptExchange(ExchangeRequest request) {
+
+    //authentication
+    //
+    public User acceptExchange(ExchangeRequest request) {
         User user = repository.findUserByEmail(request.email()).orElseThrow(() -> new EmailNotFoundException("User not found with email: {}" + request.email()));
         Exchange exchange = exchangeService.saveExchange(user, request);
-        user.getExchangeList().add(exchange);
-
-//        Currency currency = user.getCryptoAccountList().get(0).getCryptoCurrencies().stream().filter(cur -> cur.getType().equals(request.coin())).findAny().orElse(new Currency());
-//        currency.setType(currency.getType());
-//        currency.setAmount(currency.getAmount()+exchange.getAmount());
 
         // Get the first CryptoAccount object from the user's list
         CryptoAccount cryptoAccount = user.getCryptoAccountList().get(0);
 
-// Get the list of CryptoCurrencies from the CryptoAccount object
+        // Get the list of CryptoCurrencies from the CryptoAccount object
         List<Currency> cryptoCurrencies = cryptoAccount.getCryptoCurrencies();
-
-// Find the CryptoCurrency object that matches the request.coin() value
+        // POST CALCULATION
+        // Find the CryptoCurrency object that matches the request.coin() value
         Currency currency = cryptoCurrencies.stream()
                 .filter(cur -> cur.getType().equals(request.coin()))
                 .findAny()
                 .orElse(new Currency());
 
-// Update the amount of the CryptoCurrency object with the new value
+        // Update the amount of the Currency object with the new value
         currency.setAmount(
-                Optional.ofNullable(currency.getAmount()).orElse((float) 0)
+                Optional.ofNullable(currency.getAmount()).orElse( 0.0f)
                  + exchange.getAmount());
         currency.setType(request.coin());
 
-// Set the updated CryptoCurrency object back into the list
+        // Set the updated CryptoCurrency object back into the list
+        Currency savedCurrency = currencyService.saveCurrency(
+                cryptoAccount,
+                currency);
         cryptoCurrencies.removeIf(cur -> cur.getType().equals(request.coin()));
-        cryptoCurrencies.add(currency);
+        cryptoCurrencies.add(savedCurrency);
 
-// Set the updated CryptoCurrencies list back into the CryptoAccount object
-        cryptoAccount.setCryptoCurrencies(cryptoCurrencies);
+        // Set the updated CryptoCurrencies list back into the CryptoAccount object
+        CryptoAccount savedCryptoAccount = cryptoAccountService.saveCryptoAccount(cryptoAccount);
 
-// Set the updated CryptoAccount object back into the user's list
-        user.setCryptoAccountList(List.of(cryptoAccount));
-        repository.save(user);
+        // Set the updated CryptoAccount object back into the user's list
+        user.setCryptoAccountList(List.of(savedCryptoAccount));
 
-        return currencyService.saveCurrency(currency);
-
-
-
+        return repository.save(user);
+        // @Lazy
     }
 
 
