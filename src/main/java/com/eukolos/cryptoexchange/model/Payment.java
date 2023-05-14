@@ -26,7 +26,11 @@ public class Payment {
     @CreationTimestamp
     private LocalDate date;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinTable(
+            name="user_payments",
+            joinColumns = @JoinColumn( name="payment_id"),
+            inverseJoinColumns = @JoinColumn( name="user_id")
+    )
     @ToString.Exclude
     private User user;
 

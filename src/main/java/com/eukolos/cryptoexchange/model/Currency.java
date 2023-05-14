@@ -20,12 +20,12 @@ public class Currency {
     private EnumCurrency type;
     private float amount;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "crypto_account_id")
+    @JoinTable(
+            name="account_crypto_currencies",
+            joinColumns = @JoinColumn( name="cryptoCurrency_id"),
+            inverseJoinColumns = @JoinColumn( name="account_id")
+    )
     @ToString.Exclude
-    private CryptoAccount cryptoAccount;
+    private Account account;
 
-    public Currency(EnumCurrency type, float amount) {
-        this.type = type;
-        this.amount = amount;
-    }
 }

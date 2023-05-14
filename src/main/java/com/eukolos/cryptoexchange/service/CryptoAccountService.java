@@ -1,6 +1,6 @@
 package com.eukolos.cryptoexchange.service;
 
-import com.eukolos.cryptoexchange.model.CryptoAccount;
+import com.eukolos.cryptoexchange.model.Account;
 import com.eukolos.cryptoexchange.repository.CryptoAccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 public class CryptoAccountService {
     private final CryptoAccountRepository repository;
 
-    public CryptoAccount saveCryptoAccount(CryptoAccount cryptoAccount) {
+    public Account saveCryptoAccount(Account account) {
         return repository.save(
-                CryptoAccount.builder()
-                        .id(cryptoAccount.getId())
-                        .cryptoCurrencies(cryptoAccount.getCryptoCurrencies())
-                        .currency(cryptoAccount.getCurrency())
-                        .user(cryptoAccount.getUser())
+                Account.builder()
+                        .id(account.getId())
+                        .cryptoCurrencies(account.getCryptoCurrencies())
+                        .currency(account.getCurrency())
+                        .user(account.getUser())
                         .build()
         );
 

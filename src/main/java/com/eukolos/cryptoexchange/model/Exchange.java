@@ -23,8 +23,12 @@ public class Exchange {
     private float amount;
     @CreationTimestamp
     private LocalDate date;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne
+    @JoinTable(
+            name="user_exchanges",
+            joinColumns = @JoinColumn( name="exchange_id"),
+            inverseJoinColumns = @JoinColumn( name="user_id")
+    )
     @ToString.Exclude
     private User user;
 }

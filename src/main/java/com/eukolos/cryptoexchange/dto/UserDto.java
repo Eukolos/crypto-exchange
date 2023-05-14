@@ -22,8 +22,8 @@ public class UserDto implements Serializable {
         this.role = user.getRole();
 
         List<CryptoAccountDto> cryptoAccountDtoList = new ArrayList<>();
-        for (CryptoAccount cryptoAccount : user.getCryptoAccountList()) {
-            cryptoAccountDtoList.add(new CryptoAccountDto(cryptoAccount));
+        for (Account account : user.getAccountList()) {
+            cryptoAccountDtoList.add(new CryptoAccountDto(account));
         }
         this.cryptoAccountDtoList = cryptoAccountDtoList;
 

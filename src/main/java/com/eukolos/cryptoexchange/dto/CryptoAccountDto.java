@@ -1,6 +1,6 @@
 package com.eukolos.cryptoexchange.dto;
 
-import com.eukolos.cryptoexchange.model.CryptoAccount;
+import com.eukolos.cryptoexchange.model.Account;
 import com.eukolos.cryptoexchange.model.Currency;
 import lombok.Data;
 
@@ -16,11 +16,11 @@ public class CryptoAccountDto implements Serializable {
 
 
 
-    public CryptoAccountDto(CryptoAccount cryptoAccount) {
-        this.id = cryptoAccount.getId();
-        this.currency =  new CurrencyDto(cryptoAccount.getCurrency());
+    public CryptoAccountDto(Account account) {
+        this.id = account.getId();
+        this.currency =  new CurrencyDto(account.getCurrency());
         List<CurrencyDto> currenciesDto = new ArrayList<>();
-        for (Currency currency : cryptoAccount.getCryptoCurrencies()) {
+        for (Currency currency : account.getCryptoCurrencies()) {
             currenciesDto.add(new CurrencyDto(currency));
         }
         this.cryptoCurrencies = currenciesDto;
